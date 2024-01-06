@@ -25,65 +25,105 @@ WHERE town_from = 'Moscow';
 ```sql
 SELECT name FROM Passenger
 WHERE name LIKE '%man';
-```sql
+```
 
 Задание 5: Вывести количество рейсов, совершенных на TU-134
+```sql
 SELECT DISTINCT COUNT('plane') AS count FROM Trip
 WHERE plane LIKE 'TU-134';
+```
 
 Задание 6: Какие компании совершали перелеты на Boeing
+```sql
 SELECT Company.name FROM Trip
 LEFT JOIN Company
 ON Company.id = Trip.company
 WHERE plane = 'Boeing'
 GROUP BY company;
+```
+
 
 Задание 7: Вывести все названия самолётов, на которых можно улететь в Москву (Moscow)
+```sql
 SELECT plane FROM Trip
 WHERE town_to = 'Moscow'
 GROUP BY plane;
+```
+
 
 Задание 8: В какие города можно улететь из Парижа (Paris) и сколько времени это займёт?
-SELECT town_to, TIMEDIFF(time_in, time_out) AS flight_time FROM Trip WHERE town_from = 'Paris';
+```sql
+SELECT town_to, TIMEDIFF(time_in, time_out) AS flight_time
+FROM Trip
+WHERE town_from = 'Paris';
+```
 
-Задание 9:
+
+Задание 9: Какие компании организуют перелеты из Владивостока (Vladivostok)?
+```sql
 SELECT name FROM Company AS c
 LEFT JOIN Trip AS t
 ON c.id = t.company
 WHERE t.town_from = 'Vladivostok';
+```
 
 Задание 10: Вывести вылеты, совершенные с 10 ч. по 14 ч. 1 января 1900 г.
+```sql
 SELECT * FROM Trip
 WHERE time_out BETWEEN '1900-01-01T10:00:00.000Z' AND '1900-01-01T14:00:00.000Z';
+```
+
 
 Задание 11: Вывести пассажиров с самым длинным именем
+```sql
 SELECT name FROM Passenger
 ORDER BY LENGTH(name) DESC LIMIT 1;
+```
+
 
 Задание 12: Вывести id и количество пассажиров для всех прошедших полётов
-SELECT trip, COUNT(passenger) AS count FROM Pass_in_trip
+```sql
+SELECT trip, COUNT(passenger) AS count
+FROM Pass_in_trip
 GROUP BY trip;
+```
+
 
 Задание 13: Вывести имена людей, у которых есть полный тёзка среди пассажиров
-SELECT name FROM Passenger GROUP BY name HAVING COUNT(*) > 1;
+```sql
+SELECT name
+FROM Passenger
+GROUP BY name
+HAVING COUNT(*) > 1;
+```
+
 
 Задание 14: В какие города летал Bruce Willis
-SELECT t.town_to FROM Trip AS t
+```sql
+SELECT t.town_to
+FROM Trip AS t
 JOIN Pass_in_trip AS pit
 ON t.id = trip
 JOIN Passenger AS p
 ON p.id = passenger
 WHERE name = 'Bruce Willis';
+```
+
 
 Задание 15: Во сколько Стив Мартин (Steve Martin) прилетел в Лондон (London)
-SELECT t.time_in FROM Trip AS t
+```sql
+SELECT t.time_in
+FROM Trip AS t
 JOIN Pass_in_trip AS pit
 ON t.id = trip
 JOIN Passenger AS p
 ON p.id = passenger
 WHERE name = 'Steve Martin' AND town_to = 'London';
+```
+
 
 Задание 16: Вывести отсортированный по количеству перелетов (по убыванию) и имени (по возрастанию) список пассажиров, совершивших хотя бы 1 полет.
+```sql
 SELECT p.name, COUNT(passenger) AS count FROM Trip AS t
 JOIN Pass_in_trip AS pit
 ON t.id = trip
@@ -92,13 +132,16 @@ ON p.id = passenger
 GROUP BY p.name
 HAVING count >= 1
 ORDER BY count DESC, p.name ASC;
+```
 
 Задание 17: Определить, сколько потратил в 2005 году каждый из членов семьи
+```sql
 SELECT member_name, status, SUM(unit_price * amount) as costs FROM Payments AS p
 JOIN FamilyMembers AS fm
 ON p.family_member = fm.member_id
 WHERE date LIKE '2005%'
 GROUP BY family_member;
+```
 
 Задание 18: Узнать, кто старше всех в семьe
 SELECT member_name FROM FamilyMembers
