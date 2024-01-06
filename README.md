@@ -153,18 +153,25 @@ GROUP BY family_member;
 ```
 
 Задание 18: Узнать, кто старше всех в семьe
+```sql
 SELECT member_name FROM FamilyMembers
 WHERE birthday = (SELECT MIN(birthday) FROM FamilyMembers);
+```
+
 
 Задание 19: Определить, кто из членов семьи покупал картошку (potato)
+```sql
 SELECT status FROM FamilyMembers AS fm
 JOIN Payments AS p
 ON fm.member_id = p.family_member
 JOIN Goods AS g
 ON p.good = g.good_id
 WHERE good_name LIKE 'potato' GROUP BY status;
+```
+
 
 Задание 20: Сколько и кто из семьи потратил на развлечения (entertainment). Вывести статус в семье, имя, сумму
+```sql
 SELECT status, member_name, SUM(unit_price*amount) AS costs FROM FamilyMembers AS fm
 JOIN Payments AS p
 ON fm.member_id = p.family_member
@@ -174,84 +181,126 @@ JOIN GoodTypes as gp
 ON g.type = gp.good_type_id
 WHERE good_type_name = 'entertainment'
 GROUP BY family_member;
+```
+
 
 Задание 21: Определить товары, которые покупали более 1 раза
+```sql
 SELECT good_name FROM Payments AS p
 JOIN Goods as g
 ON p.good = g.good_id
 GROUP BY good
 HAVING COUNT(good_name) > 1;
+```
+
 
 Задание 22: Найти имена всех матерей (mother)
+```sql
 SELECT member_name FROM FamilyMembers
 WHERE status = 'mother';
+```
 
-Задание 23: SELECT good_name, unit_price FROM Payments AS p
+
+Задание 23: Найдите самый дорогой деликатес (delicacies) и выведите его цену
+```sql
+SELECT good_name, unit_price FROM Payments AS p
 JOIN Goods AS g
 ON p.good = g.good_id
 JOIN GoodTypes as gp
 ON g.type = gp.good_type_id
 WHERE good_type_name = 'delicacies'
 LIMIT 1;
+```
+
 
 Задание 24: Определить кто и сколько потратил в июне 2005
+```sql
 SELECT member_name, SUM(unit_price*amount) as costs FROM Payments as p
 JOIN FamilyMembers as fm
 ON p.family_member = fm.member_id
 WHERE date LIKE '2005-06%'
 GROUP BY member_name;
+```
+
 
 Задание 25: Определить, какие товары имеются в таблице Goods, но не покупались в течение 2005 года
+```sql
 SELECT good_name FROM Goods
 LEFT JOIN Payments ON
  Goods.good_id = Payments.good
  AND YEAR(Payments.date) = 2005
 WHERE  Payments.good IS NULL
 GROUP BY good_id;
+```
 
-				ЕЩЕ ОДНО РЕШЕНИЕ:
+
+ЕЩЕ ОДНО РЕШЕНИЕ:
+```sql
 SELECT good_name, good_id, good, date FROM Goods as g
 LEFT OUTER JOIN Payments as p
 ON g.good_id = p.good
 WHERE date IS NULL OR date NOT LIKE '2005%'
 ORDER BY good;
+```
+
 
 Задание 26: Определить группы товаров, которые не приобретались в 2005 году
 ГРУППЫ, ТОВАРЫ, КОГДА ПРИОБРЕТАЛИСЬ:
-SELECT good_type_name, good_name, good_id, good, payment_id, date FROM Goods                                                       JOIN Payments ON  Goods.good_id = Payments.good
+
+```sql
+SELECT good_type_name, good_name, good_id, good, payment_id, date FROM Goods
+JOIN Payments ON  Goods.good_id = Payments.good
 JOIN GoodTypes ON GoodTypes.good_type_id = Goods.type;
+```sql
 
 РЕШЕНИЕ:
+```sql
 SELECT good_type_name FROM GoodTypes
 WHERE good_type_id NOT IN (SELECT good_type_id FROM Goods
 JOIN Payments ON  Goods.good_id = Payments.good AND YEAR(date) = 2005
 JOIN GoodTypes ON GoodTypes.good_type_id = Goods.type);
+```
 
 Задание 27: Узнать, сколько потрачено на каждую из групп товаров в 2005 году. Вывести название группы и сумму
+```sql
 SELECT good_type_name, SUM(amount*unit_price) AS costs FROM GoodTypes
 JOIN Goods ON good_type_id = type
 JOIN Payments ON good = good_id AND YEAR(date) = 2005
 GROUP BY good_type_name;
+```
+
 
 Задание 28: Сколько рейсов совершили авиакомпании с Ростова (Rostov) в Москву (Moscow) ?
+```sql
 SELECT COUNT(id) AS count FROM Trip
 WHERE town_from = 'Rostov' AND town_to = 'Moscow';
+```
+
 
 Задание 29: Выведите имена пассажиров улетевших в Москву (Moscow) на самолете TU-134
+```sql
 SELECT DISTINCT name FROM Passenger
 JOIN Pass_in_trip ON Passenger.id = Pass_in_trip.passenger
 JOIN Trip ON Pass_in_trip.trip = Trip.id
 WHERE plane = 'TU-134' AND town_to = 'Moscow';
+```
+
 
 Задание 30: Выведите нагруженность (число пассажиров) каждого рейса (trip). Результат вывести в отсортированном виде по убыванию нагруженности.
+```sql
 SELECT trip, COUNT(passenger) AS count FROM Passenger
 JOIN Pass_in_trip ON Passenger.id = Pass_in_trip.passenger
 JOIN Trip ON Pass_in_trip.trip = Trip.id
 GROUP BY trip ORDER BY count DESC;
+```
+
 
 Задание 31: Вывести всех членов семьи с фамилией Quincey.
+```sql
 SELECT * FROM FamilyMembers
 WHERE member_name LIKE '%Quincey';
+```
+
 
 Задание 32: Вывести средний возраст людей (в годах), хранящихся в базе данных. Результат округлите до целого в меньшую сторону.
 SELECT FLOOR(AVG(FLOOR(DATEDIFF(NOW(), birthday)/365))) AS age FROM FamilyMembers;
