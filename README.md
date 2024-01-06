@@ -477,14 +477,19 @@ UPDATE FamilyMembers SET member_name='Andie Anthony' WHERE member_id=3;
 DELETE FROM FamilyMembers WHERE member_name LIKE '%Quincey';
 
 `Задание 55: Удалить компании, совершившие наименьшее количество рейсов.`
+
+```sql
 SELECT name, COUNT(company) as company FROM Trip
 JOIN Company ON Company.id=Trip.company GROUP BY name;
 DELETE FROM Company WHERE id = 4;
 DELETE FROM Company WHERE id = 3;
 DELETE FROM Company WHERE id = 2;
+```
 
 `Задание 56: Удалить все перелеты, совершенные из Москвы (Moscow).`
+```sql
 DELETE FROM Trip WHERE town_from LIKE '%Moscow';
+```
 
 `Задание 57: Перенести расписание всех занятий на 30 мин. вперед.`
 UPDATE Timepair SET start_pair = DATE_ADD(start_pair, INTERVAL 30 MINUTE);
