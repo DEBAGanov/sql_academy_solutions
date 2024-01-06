@@ -492,16 +492,20 @@ DELETE FROM Trip WHERE town_from LIKE '%Moscow';
 ```
 
 `Задание 57: Перенести расписание всех занятий на 30 мин. вперед.`
+```sql
 UPDATE Timepair SET start_pair = DATE_ADD(start_pair, INTERVAL 30 MINUTE);
 UPDATE Timepair SET end_pair = DATE_ADD(end_pair, INTERVAL 30 MINUTE);
+```
 
 `Задание 58: Добавить отзыв с рейтингом 5 на жилье, находящиеся по адресу "11218, Friel Place, New York", от имени "George Clooney"`
+```sql
 SELECT Users.name, Reservations.* FROM Reservations
 JOIN Rooms ON Rooms.id=Reservations.room_id
 JOIN Users ON Users.id=Reservations.user_id
 WHERE address = '11218, Friel Place, New York'
 
 INSERT INTO Reviews (id, reservation_id, rating) VALUES (23, 2, 5);
+```
 
 `Задание 59: Вывести пользователей,указавших Белорусский номер телефона ? Телефонный код Белоруссии +375.`
 SELECT * FROM Users WHERE phone_number LIKE '+375%';
