@@ -474,7 +474,10 @@ UPDATE FamilyMembers SET member_name='Andie Anthony' WHERE member_id=3;
 ```
 
 `Задание 54: Удалить всех членов семьи с фамилией "Quincey".`
+```sql
 DELETE FROM FamilyMembers WHERE member_name LIKE '%Quincey';
+```
+
 
 `Задание 55: Удалить компании, совершившие наименьшее количество рейсов.`
 
@@ -559,9 +562,10 @@ GROUP BY room_id;
 
 
 `Задание 66: Вывести список комнат со всеми удобствами (наличие ТВ, интернета, кухни и кондиционера), а также общее количество дней и сумму за все дни аренды каждой из таких комнат.`
+```sql
 SELECT home_type, address, COALESCE(SUM(DATEDIFF(end_date, start_date)), 0) as days, COALESCE(SUM(Reservations.total), 0) AS total_fee FROM Reservations
 RIGHT JOIN Rooms ON Rooms.id=Reservations.room_id
 WHERE has_tv !=0 AND has_internet !=0 AND has_kitchen !=0 AND has_air_con !=0
 GROUP BY address, home_type;
-
+```
 
