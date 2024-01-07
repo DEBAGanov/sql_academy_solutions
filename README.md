@@ -508,9 +508,13 @@ INSERT INTO Reviews (id, reservation_id, rating) VALUES (23, 2, 5);
 ```
 
 `Задание 59: Вывести пользователей,указавших Белорусский номер телефона ? Телефонный код Белоруссии +375.`
+```sql
 SELECT * FROM Users WHERE phone_number LIKE '+375%';
+```
+
 
 `Задание 60: Выведите идентификаторы преподавателей, которые хотя бы один раз за всё время преподавали в каждом из одиннадцатых классов.`
+```sql
 SELECT teacher FROM Schedule
 JOIN Teacher ON Teacher.id=Schedule.teacher
 JOIN Subject ON Subject.id=Schedule.subject
@@ -518,7 +522,7 @@ JOIN Class ON Class.id=Schedule.class
 WHERE Class.name IN ('11 A', '11 B')
 GROUP BY teacher HAVING COUNT(teacher)>=1
 ORDER BY teacher;
-
+```
 
 
 `Задание 61: Выведите список комнат, которые были зарезервированы в течение 12 недели 2020 года.`
