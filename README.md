@@ -526,14 +526,19 @@ ORDER BY teacher;
 
 
 `Задание 61: Выведите список комнат, которые были зарезервированы в течение 12 недели 2020 года.`
+```sql
 SELECT Rooms.*  FROM Rooms
 JOIN Reservations ON Rooms.id=Reservations.room_id AND YEAR(start_date)=2020 AND YEAR(end_date)=2020
 WHERE WEEK(start_date, 1)=12 OR WEEK(end_date, 1)=12;
+```
+
 
 `Задание 62: Вывести в порядке убывания популярности доменные имена 2-го уровня, используемые пользователями для электронной почты. Полученный результат необходимо дополнительно отсортировать по возрастанию названий доменных имён.`
+```sql
 SELECT SUBSTRING_INDEX(email, '@', -1) as domain, count(*) AS count FROM Users
 GROUP BY domain
 ORDER BY count DESC, domain ASC;
+```
 
 `Задание 63: Выведите отсортированный список (по возрастанию) имен студентов в виде Фамилия.И.О.`
 SELECT CONCAT(last_name, '.', LEFT(first_name, 1), '.', LEFT(middle_name, 1), '.') AS name FROM Student ORDER BY first_name ASC;
