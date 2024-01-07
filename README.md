@@ -551,9 +551,12 @@ SELECT CONCAT(last_name, '.', LEFT(first_name, 1), '.', LEFT(middle_name, 1), '.
 
 
 `Задание 65: Необходимо вывести рейтинг для комнат, которые хоть раз арендовали, как среднее значение рейтинга отзывов округленное до целого вниз.`
+```sql
 SELECT room_id, FLOOR(AVG(rating)) AS rating FROM Reservations
 JOIN Reviews ON Reviews.reservation_id=Reservations.id
 GROUP BY room_id;
+```
+
 
 `Задание 66: Вывести список комнат со всеми удобствами (наличие ТВ, интернета, кухни и кондиционера), а также общее количество дней и сумму за все дни аренды каждой из таких комнат.`
 SELECT home_type, address, COALESCE(SUM(DATEDIFF(end_date, start_date)), 0) as days, COALESCE(SUM(Reservations.total), 0) AS total_fee FROM Reservations
